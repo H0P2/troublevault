@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="TroubleVault는 기술 문제와 해결 과정을 구조적으로 기록하는 브라우저 기반 문제 해결 기록 앱입니다."
+    >
+
+    <title>TroubleVault</title>
+
+    <link
+        rel="stylesheet"
+        href="./style.css"
+    >
+</head>
+
+<body>
+
+    <canvas
+        id="matrixCanvas"
+        class="matrix-canvas"
+        aria-hidden="true"
+    ></canvas>
+
+    <div class="page-shell">
+
+        <header class="topbar">
+            <a
+                href="./index.html"
+                class="brand"
+            >
+                <span class="brand-mark">
+                    T
+                </span>
+
+                <span class="brand-text">
+                    <strong>TroubleVault</strong>
+                    <small>3D Troubleshooting Archive</small>
+                </span>
+            </a>
+
+            <div class="topbar-actions">
+
+                <span class="status-pill">
+                    Local UI Mode
+                </span>
+
+                <button
+                    type="button"
+                    id="motionToggleButton"
+                    class="ghost-button"
+                    aria-pressed="false"
+                >
+                    Matrix On
+                </button>
+
+            </div>
+        </header>
+
+
+        <main class="main-layout">
+
+            <section class="hero-panel panel-3d">
+                <p class="eyebrow">
+                    TECHNICAL KNOWLEDGE BASE
+                </p>
+
+                <h1>
+                    문제를
+                    <span>기록하고</span>
+                    다시 꺼내봅니다.
+                </h1>
+
+                <p class="hero-description">
+                    TroubleVault는 문제 · 원인 · 해결 방법 · 결과를 구조적으로 남겨
+                    다음에 같은 이슈를 만났을 때 빠르게 다시 확인할 수 있도록 만든
+                    개인 문제 해결 기록 앱입니다.
+                </p>
+
+                <div class="hero-tags">
+                    <span>3D UI</span>
+                    <span>Matrix Theme</span>
+                    <span>Knowledge Base</span>
+                    <span>LocalStorage Ready</span>
+                </div>
+            </section>
+
+
+            <div class="workspace">
+
+                <section
+                    class="panel panel-3d form-panel"
+                    aria-labelledby="form-title"
+                >
+                    <div class="panel-header">
+                        <div>
+                            <p class="panel-index">
+                                01
+                            </p>
+
+                            <h2 id="form-title">
+                                New Trouble Record
+                            </h2>
+                        </div>
+
+                        <span class="panel-badge">
+                            FORM
+                        </span>
+                    </div>
+
+                    <form id="recordForm" class="record-form">
+
+                        <div class="field-group">
+                            <label for="titleInput">
+                                제목
+                            </label>
+
+                            <input
+                                id="titleInput"
+                                type="text"
+                                placeholder="예: Postfix 외부 연결 실패"
+                            >
+                        </div>
+
+                        <div class="field-row">
+                            <div class="field-group">
+                                <label for="categoryInput">
+                                    카테고리
+                                </label>
+
+                                <select id="categoryInput">
+                                    <option value="Network">Network</option>
+                                    <option value="Linux">Linux</option>
+                                    <option value="Server">Server</option>
+                                    <option value="Database">Database</option>
+                                    <option value="Web">Web</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="field-group">
+                                <label for="tagsInput">
+                                    태그
+                                </label>
+
+                                <input
+                                    id="tagsInput"
+                                    type="text"
+                                    placeholder="예: postfix, smtp, linux"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="problemInput">
+                                문제
+                            </label>
+
+                            <textarea
+                                id="problemInput"
+                                rows="4"
+                                placeholder="어떤 문제가 발생했는지 적습니다."
+                            ></textarea>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="causeInput">
+                                원인
+                            </label>
+
+                            <textarea
+                                id="causeInput"
+                                rows="4"
+                                placeholder="문제의 원인을 적습니다."
+                            ></textarea>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="solutionInput">
+                                해결 방법
+                            </label>
+
+                            <textarea
+                                id="solutionInput"
+                                rows="4"
+                                placeholder="어떻게 해결했는지 적습니다."
+                            ></textarea>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="resultInput">
+                                결과
+                            </label>
+
+                            <textarea
+                                id="resultInput"
+                                rows="3"
+                                placeholder="해결 후 어떤 결과가 나왔는지 적습니다."
+                            ></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button
+                                type="button"
+                                id="sampleRecordButton"
+                                class="secondary-button"
+                            >
+                                샘플 채우기
+                            </button>
+
+                            <button
+                                type="reset"
+                                id="resetFormButton"
+                                class="secondary-button"
+                            >
+                                입력 초기화
+                            </button>
+
+                            <button
+                                type="submit"
+                                id="previewButton"
+                                class="primary-button"
+                            >
+                                기록 저장
+                            </button>
+                        </div>
+
+                    </form>
+                </section>
+
+
+                <section
+                    class="panel panel-3d right-panel"
+                    aria-labelledby="records-title"
+                >
+                    <div class="panel-header">
+                        <div>
+                            <p class="panel-index">
+                                02
+                            </p>
+
+                            <h2 id="records-title">
+                                Vault Records
+                            </h2>
+                        </div>
+
+                        <span class="panel-badge">
+                            LIST
+                        </span>
+                    </div>
+
+                    <div class="toolbar">
+                        <div class="field-group compact-field">
+                            <label for="searchInput">
+                                검색
+                            </label>
+
+                            <input
+                                id="searchInput"
+                                type="search"
+                                placeholder="제목 또는 내용 검색"
+                            >
+                        </div>
+
+                        <div class="field-group compact-field">
+                            <label for="filterCategory">
+                                카테고리 필터
+                            </label>
+
+                            <select id="filterCategory">
+                                <option value="ALL">All</option>
+                                <option value="Network">Network</option>
+                                <option value="Linux">Linux</option>
+                                <option value="Server">Server</option>
+                                <option value="Database">Database</option>
+                                <option value="Web">Web</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <p
+                        id="storageStatus"
+                        class="storage-status"
+                        role="status"
+                        aria-live="polite"
+                    >
+                        LocalStorage 준비 상태를 확인하지 않았습니다.
+                    </p>
+
+                    <div class="utility-actions">
+                        <button
+                            type="button"
+                            id="storageTestButton"
+                            class="secondary-button"
+                        >
+                            저장소 테스트
+                        </button>
+                    </div>
+
+                    <div
+    id="recordList"
+    class="record-list"
+>
+    <p class="empty-records">
+        아직 저장된 기록이 없습니다.
+    </p>
+</div>
+
+
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+
+        <div
+            id="previewStatus"
+            class="preview-status"
+            role="status"
+            aria-live="polite"
+        >
+            아직 미리보기를 생성하지 않았습니다.
+        </div>
+
+    </div>
+
+    <script src="./app.js"></script>
+
+</body>
+</html>
